@@ -67,10 +67,10 @@ export const SearchBar = () => {
     }
 
     return (
-        <div className="relative mb-6 mx-auto max-w-[1280px] px-4 md:px-0">
+        <div className="mb-6 mx-auto max-w-[1280px] px-4 md:px-0">
             <form
                 onSubmit={handleSubmit}
-                className="flex items-center gap-2 bg-white border border-gray-300 rounded-full px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 transition text-black"
+                className="relative w-full flex items-center gap-2 bg-white border border-gray-300 rounded-full px-4 py-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 transition text-black"
                 autoComplete="off"
             >
                 <input
@@ -91,53 +91,53 @@ export const SearchBar = () => {
                 >
                     Buscar
                 </button>
-            </form>
 
-            {suggestions.length > 0 && (
-                <ul
-                    id="suggestions-list"
-                    role="listbox"
-                    className="absolute z-1000 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-auto text-black"
-                >
-                    {suggestions.map((s, i) => (
-                        <li
-                            key={i}
-                            role="option"
-                            tabIndex={0}
-                            className="cursor-pointer px-4 py-2 hover:bg-blue-100"
-                            onClick={() => handleSuggestionClick(s)}
-                            onKeyDown={e => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                    e.preventDefault()
-                                    handleSuggestionClick(s)
-                                }
-                            }}
-                        >
-                            {s.type === 'user' ? (
-                                <div className="flex items-center gap-2">
-                                    <img
-                                        src={s.avatar || '/default-avatar.gif'}
-                                        alt={s.username}
-                                        className="w-12 h-12 rounded-full object-cover"
-                                    />
-                                    <div className="flex flex-col">
-                                        <span className="font-bold text-lg">{s.name}</span>
-                                        <span>@{s.username}</span>
+                {suggestions.length > 0 && (
+                    <ul
+                        id="suggestions-list"
+                        role="listbox"
+                        className="absolute left-0 right-0 top-full z-50 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-auto text-black"
+                    >
+                        {suggestions.map((s, i) => (
+                            <li
+                                key={i}
+                                role="option"
+                                tabIndex={0}
+                                className="cursor-pointer px-4 py-2 hover:bg-blue-100"
+                                onClick={() => handleSuggestionClick(s)}
+                                onKeyDown={e => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault()
+                                        handleSuggestionClick(s)
+                                    }
+                                }}
+                            >
+                                {s.type === 'user' ? (
+                                    <div className="flex items-center gap-2">
+                                        <img
+                                            src={s.avatar || '/default-avatar.gif'}
+                                            alt={s.username}
+                                            className="w-12 h-12 rounded-full object-cover"
+                                        />
+                                        <div className="flex flex-col">
+                                            <span className="font-bold text-lg">{s.name}</span>
+                                            <span>@{s.username}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            ) : (
-                                <div className="block px-2 py-1">{s.title}</div>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            )}
+                                ) : (
+                                    <div className="block px-2 py-1">{s.title}</div>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                )}
 
-            {loading && (
-                <div className="absolute right-4 top-3 text-gray-500 text-sm select-none">
-                    Cargando...
-                </div>
-            )}
+                {loading && (
+                    <div className="absolute right-4 top-3 text-gray-500 text-sm select-none">
+                        Cargando...
+                    </div>
+                )}
+            </form>
         </div>
     )
 }
