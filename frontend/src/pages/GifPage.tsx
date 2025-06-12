@@ -194,8 +194,8 @@ export const GifPage = () => {
             </p>
           )}
         </div>
-        <div className="mt-8">
-          <h2 className="text-2xl font-semibold ml-6">GIFs relacionados</h2>
+        <div className="mt-8 p-4">
+          <h2 className="text-2xl font-semibold py-4">GIFs relacionados</h2>
           <GifGallery tag={gif.tags[0]} />
         </div>
       </div>
