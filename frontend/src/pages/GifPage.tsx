@@ -9,6 +9,7 @@ import { GifGallery } from '../components/GifGallery';
 import { GifPageSkeleton } from '../components/skeletons/GifPageSkeleton';
 import type { Gif } from '../types/gif.types';
 import { usePageMeta } from '../hooks/usePageMeta';
+import { toast } from 'react-toastify';
 
 export const GifPage = () => {
   const { id } = useParams();
@@ -160,7 +161,10 @@ export const GifPage = () => {
             type="text"
             value={window.location.href}
             readOnly
-            onClick={() => copyText(window.location.href)}
+            onClick={() => {
+              copyText(window.location.href)
+              toast.success("Enlace copiado");
+            }}
             className="w-full mb-4 p-2 border border-gray-300 rounded cursor-pointer text-blue-700 hover:bg-blue-100 transition"
             id="text-share"
           />
@@ -170,7 +174,10 @@ export const GifPage = () => {
             type="text"
             value={embedCode}
             readOnly
-            onClick={() => copyText(embedCode)}
+            onClick={() => {
+              copyText(embedCode)
+              toast.success("Enlace copiado");
+            }}
             className="w-full p-2 border border-gray-300 rounded cursor-pointer text-blue-700 hover:bg-blue-100 transition"
             id="text-share2"
           />

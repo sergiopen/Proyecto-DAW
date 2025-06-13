@@ -54,7 +54,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (identifier: string, password: string) => {
     setLoading(true);
     try {
-      const data = await loginUser(identifier, password);
+      await loginUser(identifier, password);
+      const data = await verifyUser();
       setUser(data);
       setIsAuthenticated(true);
     } catch (err) {

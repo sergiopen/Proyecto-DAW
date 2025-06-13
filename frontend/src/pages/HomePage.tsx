@@ -12,8 +12,10 @@ export const HomePage = () => {
   return (
     <>
       <Header />
-      <SearchBar />
-      <GifGallery />
+      <main className="max-w-[1280px] mx-auto px-6">
+        <SearchBar />
+        <GifGallery />
+      </main>
     </>
   );
 };

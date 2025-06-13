@@ -13,13 +13,15 @@ export const TagPage = () => {
   });
 
   return (
-    <div>
+    <>
       <Header />
-      <SearchBar />
-      <h1 className="mx-auto max-w-[1280px] text-3xl font-bold mb-4 px-4 md:px-0">
-        Gifs con el tag <Link to={`/tag/${tag}`}>#{tag}</Link>
-      </h1>
-      <GifGallery tag={tag} />
-    </div>
+      <main className='max-w-[1280px] mx-auto px-6'>
+        <SearchBar />
+        <h1 className="mx-auto max-w-[1280px] text-3xl font-bold mb-4 px-4 md:px-0">
+          Gifs con el tag <Link to={`/tag/${tag}`}>#{tag}</Link>
+        </h1>
+        <GifGallery tag={tag} />
+      </main>
+    </>
   );
 };

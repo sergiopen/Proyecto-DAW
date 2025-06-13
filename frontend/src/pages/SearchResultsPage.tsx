@@ -14,10 +14,13 @@ export const SearchResultsPage = () => {
 
     return (
         <>
+
             <Header />
-            <SearchBar />
-            <h1 className="mx-auto max-w-[1280px] text-3xl font-bold mb-4 px-4 md:px-0">Resultados para: <Link to={`/search/${term}`}>{term}</Link></h1>
-            <GifGallery searchQuery={term} />
+            <div className='max-w-[1280px] mx-auto px-6'>
+                <SearchBar />
+                <h1 className="mx-auto max-w-[1280px] text-3xl font-bold mb-4 px-4 md:px-0">Resultados para: <Link to={`/search/${term}`}>{term}</Link></h1>
+                <GifGallery searchQuery={term} />
+            </div>
         </>
     );
 };

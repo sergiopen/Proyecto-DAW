@@ -13,10 +13,11 @@ export const Header = () => {
       </Link>
 
       {isAuthenticated && (
-        <div className="md:hidden flex items-center gap-2">
+        <div className="lg:hidden flex items-center gap-2">
           <Link
             to="/upload"
             className="flex items-center gap-1 px-3 py-3 rounded-md bg-violet-600 hover:bg-violet-700 transition-colors"
+            onClick={() => setMenuOpen(false)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -38,37 +39,43 @@ export const Header = () => {
           <button
             className="flex items-center justify-center p-2 rounded hover:bg-zinc-800 cursor-pointer"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {menuOpen ? (
+            {menuOpen ? (
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="white"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
                   d="M6 18L18 6M6 6l12 12"
                 />
-              ) : (
+              </svg>
+            ) : (
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="white"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
                   d="M4 6h16M4 12h16M4 18h16"
                 />
-              )}
-            </svg>
+              </svg>
+            )}
           </button>
         </div>
       )}
 
-      <nav className="hidden md:flex items-center gap-6">
+      <nav className="hidden lg:flex items-center gap-6">
         {isAuthenticated ? (
           <>
             <div className="flex gap-5">
@@ -92,6 +99,7 @@ export const Header = () => {
                 </svg>
                 <span>Subir</span>
               </Link>
+
               <div className="relative group">
                 <div className="flex items-center gap-2 cursor-pointer">
                   <Link

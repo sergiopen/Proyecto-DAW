@@ -80,10 +80,6 @@ export const SearchBar = () => {
                     placeholder="Buscar por título o @usuario"
                     className="flex-grow bg-transparent outline-none placeholder-gray-400 text-xl"
                     id="input-text"
-                    aria-expanded={suggestions.length > 0}
-                    aria-autocomplete="list"
-                    aria-controls="suggestions-list"
-                    aria-haspopup="listbox"
                 />
                 <button
                     type="submit"

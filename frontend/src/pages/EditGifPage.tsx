@@ -17,6 +17,8 @@ export const EditGifPage = () => {
     const [tags, setTags] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [titleError, setTitleError] = useState('');
+    const [submitting, setSubmitting] = useState(false);
 
     usePageMeta({
         title: gif ? `Editar: ${gif.title}` : 'Editar GIF',
@@ -50,13 +52,22 @@ export const EditGifPage = () => {
         fetchGif();
     }, [id, user, isAuthenticated]);
 
+    const validateInputs = () => {
+        let valid = true;
+        if (!title.trim()) {
+            setTitleError('El título no puede estar vacío');
+            valid = false;
+        } else {
+            setTitleError('');
+        }
+        return valid;
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!title.trim()) {
-            setError('El título no puede estar vacío');
-            return;
-        }
-        setError('');
+        if (!validateInputs()) return;
+
+        setSubmitting(true);
         const updatedTags = tags.split(',').map(t => t.trim()).filter(Boolean);
         try {
             await updateGif(id!, { title: title.trim(), tags: updatedTags });
@@ -65,6 +76,8 @@ export const EditGifPage = () => {
         } catch {
             setError('Error al actualizar el GIF');
             toast.error('Error al actualizar el GIF');
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -92,16 +105,20 @@ export const EditGifPage = () => {
     };
 
     if (loading) return <GifPageSkeleton />;
-    if (error) return <div className="text-center mt-8 text-red-500">{error}</div>;
+    if (error && !gif) return <div className="text-center mt-8 text-red-500">{error}</div>;
 
     return (
         <>
             <Header />
-            <div className="max-w-2xl mx-auto mt-12 px-4">
+            <div className="max-w-[1000px] mx-auto mt-12 px-4">
                 <h1 className="text-3xl font-bold mb-6 text-center text-white">Editar GIF</h1>
 
                 <div className="bg-gray-800 p-4 rounded-lg mb-6">
-                    <img src={gif?.url} alt={gif?.title} className="w-full rounded mb-4" />
+                    <img
+                        src={gif?.url}
+                        alt={gif?.title}
+                        className="w-[500px] h-[500px] rounded mb-4 object-contain mx-auto"
+                    />
                     <div className="flex justify-between text-sm text-gray-400">
                         <div className="flex items-center gap-2">
                             <svg
@@ -147,6 +164,12 @@ export const EditGifPage = () => {
                     </div>
                 </div>
 
+                {error && (
+                    <div className="mb-4 text-center text-red-500 font-medium">
+                        {error}
+                    </div>
+                )}
+
                 <form onSubmit={handleSubmit} className="bg-gray-900 p-6 rounded-lg shadow space-y-6">
                     <div>
                         <label htmlFor="title" className="block text-sm font-medium text-gray-300 mb-1">
@@ -157,8 +180,14 @@ export const EditGifPage = () => {
                             id="title"
                             value={title}
                             onChange={e => setTitle(e.target.value)}
-                            className="w-full px-4 py-2 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className={`w-full px-4 py-2 rounded bg-gray-800 text-white border ${titleError ? 'border-red-500' : 'border-gray-700'
+                                } focus:outline-none focus:ring-2 ${titleError ? 'focus:ring-red-500' : 'focus:ring-blue-500'
+                                }`}
+                            disabled={submitting}
                         />
+                        {titleError && (
+                            <p className="mt-1 text-sm text-red-500">{titleError}</p>
+                        )}
                     </div>
 
                     <div>
@@ -171,20 +200,45 @@ export const EditGifPage = () => {
                             value={tags}
                             onChange={e => setTags(e.target.value)}
                             className="w-full px-4 py-2 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            disabled={submitting}
                         />
                     </div>
 
                     <div className="flex justify-between items-center">
                         <button
                             type="submit"
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-medium transition cursor-pointer"
+                            disabled={submitting}
+                            className={`bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-medium transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2`}
                         >
+                            {submitting && (
+                                <svg
+                                    className="animate-spin h-5 w-5 text-white"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    ></circle>
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                                    ></path>
+                                </svg>
+                            )}
                             Guardar cambios
                         </button>
                         <button
                             type="button"
                             onClick={handleDelete}
                             className="flex items-center gap-2 text-red-500 hover:text-red-600 cursor-pointer"
+                            disabled={submitting}
                         >
                             <svg
                                 className="w-4 h-4"

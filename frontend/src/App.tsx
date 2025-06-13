@@ -9,14 +9,10 @@ const App = () => {
     <AuthProvider>
       <ToastContainer
         position="top-center"
-        autoClose={3000}
+        autoClose={2000}
         hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
         rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
+        limit={1}
       />
       <Router>
         <AppRoutes />
